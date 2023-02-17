@@ -1,7 +1,7 @@
 import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-class AutoComplete extends React.Component {
+class Autocomplete extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,16 +29,9 @@ class AutoComplete extends React.Component {
     this.setState({ inputVal: e.target.value });
   }
 
-  selectName = ({ target:  { innerText: name }}) => {
-    this.setState({ inputVal: name, showList: false });
-  }
-
-  // Set focus to input field if user clicks anywhere inside the Autocomplete
-  // section (unless they have selected a name from the dropdown list)
-  handleAutocompleteSectionClick = ({ target }) => {
-    if (!target.classList.contains("nameLi")) {
-      this.inputRef.current.focus();
-    }
+  selectName = e => {
+    e.stopPropagation();
+    this.setState({ inputVal: e.target.innerHTML, showList: false });
   }
 
   handleOutsideClick = () => {
@@ -85,10 +78,7 @@ class AutoComplete extends React.Component {
     });
 
     return (
-      <section 
-        className="autocomplete-section" 
-        onClick={this.handleAutocompleteSectionClick}
-      >
+      <section className="autocomplete-section">
         <h1>Autocomplete</h1>
         <div className="auto">
           <input
@@ -111,4 +101,4 @@ class AutoComplete extends React.Component {
   }
 }
 
-export default AutoComplete;
+export default Autocomplete;

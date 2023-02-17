@@ -10,7 +10,7 @@ class Weather extends React.Component {
     }
     
     componentDidMount() {
-      navigator.geolocation.getCurrentPosition(
+      navigator.geolocation?.getCurrentPosition(
         this.pollWeather,
         (err) => console.log(err),
         { timeout: 10000 }
@@ -61,6 +61,13 @@ class Weather extends React.Component {
           <p>{temp.toFixed(1)} degrees</p>
         </div>
       );
+    }
+    else {
+      content = (
+        <div>
+          Weather is currently unavailable. (Are Location Services enabled?) 
+        </div>
+      )
     }
 
     return (

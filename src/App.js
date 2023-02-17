@@ -2,7 +2,7 @@ import React from 'react';
 import Clock, { ClockToggle } from './components/Clock';
 import Folder from './components/Folder';
 import Weather from './components/Weather';
-import AutoComplete from './components/Auto';
+import Autocomplete from './components/Autocomplete';
 
 const names = [
   'Abba',
@@ -38,7 +38,7 @@ class App extends React.Component {
         <Weather />
         <ClockToggle toggleClock={this.toggleClock} />
         {this.state.showClock && <Clock />}
-        <AutoComplete names={names} />
+        <Autocomplete names={names} />
       </div>
     );
   }

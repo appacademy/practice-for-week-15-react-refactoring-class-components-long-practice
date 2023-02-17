@@ -52,15 +52,15 @@ class Clock extends React.Component {
       <section className="clock-section">
         <h1>Clock</h1>
         <div className='clock'>
-          <p>
+          <p className="time">
             <span>
               Time:
             </span>
             <span>
-              {hours}:{minutes}:{seconds} {timezone}
+              {`${hours}:${minutes}:${seconds} ${timezone}`}
             </span>
           </p>
-          <p>
+          <p className="date">
             <span>
               Date: 
             </span>

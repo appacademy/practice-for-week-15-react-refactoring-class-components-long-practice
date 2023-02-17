@@ -1,20 +1,22 @@
-## Phase 5: `Auto`
+# Phase 5: `Autocomplete`
 
-In this phase, you will refactor the `Auto` component from a Class Component
-into a Function Component. The `Auto` component is rendered inside of the
-`App` component, where it's passed an array of names as props. The `Auto`
-component renders a list of names that could match the rendered input's value.
+In this phase, you will refactor the `Autocomplete` component from a Class
+Component into a Function Component. The `Autocomplete` component is rendered
+inside of the `App` component, where it's passed an array of names as props. The
+`Autocomplete` component renders a list of names that could match the rendered
+input's value.
 
-### Experimenting with lifecycle methods
+## Experimenting with lifecycle methods
 
 **Before you start converting this Class Component,** take a moment to examine
 the behavior of the two lifecycle methods, `componentDidUpdate` and
 `componentWillUnmount`. `componentDidUpdate` runs whenever the component's props
 or state update. (It does not run after the initial mount, however; to cover
-that case, you would have to use `componentDidMount`.) `Auto` uses this method
-to add (when the dropdown opens) and remove (when the dropdown closes) an event
-listener to the document. This listener enables `Auto` to close the dropdown
-menu if a user clicks outside of the component while the dropdown is open.
+that case, you would have to use `componentDidMount`.) `Autocomplete` uses this
+method to add (when the dropdown opens) and remove (when the dropdown closes) an
+event listener to the document. This listener enables `Autocomplete` to close
+the dropdown menu if a user clicks outside of the component while the dropdown
+is open.
 
 In contrast, `componentWillUnmount` runs only once, right before the component
 is unmounted. It is accordingly used to clean up any lingering effects of the
@@ -32,33 +34,33 @@ Can you get the other method to remove a listener? Why or why not? **Take a few
 minutes to experiment and answer these questions before proceeding.**
 
 As you will probably note, `componentDidUpdate` is almost always the method
-doing the removal. Why? Because it runs whenever `Auto` updates the `showList`
-state variable to open and close the dropdown. Remember that
+doing the removal. Why? Because it runs whenever `Autocomplete` updates the
+`showList` state variable to open and close the dropdown. Remember that
 `componentWillUnmount` runs only before the component unmounts; it will
-accordingly never run as long as `Auto` stays mounted on your page. 
+accordingly never run as long as `Autocomplete` stays mounted on your page.
 
 (If you want to trigger `componentWillUnmount`, run `npm start` to watch for
 changes to your files, then type an extra return somewhere inside a method in
 __Auto.js__. Once detected, the non-breaking change will cause the browser to
 update the component dynamically, which essentially involves removing the
-original `Auto` component and (re-)mounting the updated version. Voilà! If your
-DevTools inspector is open while this happens, you should see the
+original `Autocomplete` component and (re-)mounting the updated version. Voilà!
+If your DevTools inspector is open while this happens, you should see the
 `componentWillUnmount` message: "Cleaning up event listener from Autocomplete!")
 
-### Conversion to Function Component
+## Conversion to Function Component
 
 Now on to conversion! As in the previous phases, convert the component props and
-state in the `Auto` Class Component to props and state in a Function Component.
-Convert the class's instance methods (other than the lifecycle methods
-`componentDidUpdate` and `componentWillUnmount`) into regular functions in the
-Function Component.
+state in the `Autocomplete` Class Component to props and state in a Function
+Component. Convert the class's instance methods (other than the lifecycle
+methods `componentDidUpdate` and `componentWillUnmount`) into regular functions
+in the Function Component.
 
-`Auto` uses a ref (`inputRef`) to assign focus to the input field when a user
-clicks anywhere inside the component. A ref is essentially a POJO with a
-`current` key pointing to the assigned value. In the class version of `Auto`,
-`inputRef` is created with `React.createRef` and assigned by setting the `ref`
-attribute on the input field to `this.inputRef`. The input element can then be
-accessed as `this.inputRef.current`. 
+`Autocomplete` uses a ref (`inputRef`) to assign focus to the input field when a
+user clicks anywhere inside the component. A ref is essentially a POJO with a
+`current` key pointing to the assigned value. In the class version of
+`Autocomplete`, `inputRef` is created with `React.createRef` and assigned by
+setting the `ref` attribute on the input field to `this.inputRef`. The input
+element can then be accessed as `this.inputRef.current`.
 
 `React.createRef` returns a new ref every time. In a Class Component, you can
 store that ref in an instance variable that will persist, but you don't have
@@ -85,7 +87,7 @@ Hook will only run when an element in its dependency array changes. Next convert
 back at the `useEffect` Hook in your `Clock` component if you are having
 trouble.
 
-### Comparing lifecycle methods and `useEffect`
+## Comparing lifecycle methods and `useEffect`
 
 If you kept the Class Component's code largely intact, then your `useEffect`
 probably has two calls to remove an event listener, one in the main function and
@@ -122,9 +124,9 @@ from the values initially set during mounting, `useEffect` runs every time a
 value in its dependency array has changed after a render, **including after the
 first render**. When a page first loads, React runs the render function of each
 component on the page. Once it finishes the renders, it then proceeds to the
-`useEffect`s (which could potentially trigger another render, and so on). `Auto`
-initially sets the value of `showList` to `false`, so the first pass through the
-`useEffect` results in an attempted removal. 
+`useEffect`s (which could potentially trigger another render, and so on).
+`Autocomplete` initially sets the value of `showList` to `false`, so the first
+pass through the `useEffect` results in an attempted removal.
 
 Once the page has fully loaded, what happens when you first click in the
 Autocomplete widget? The removal from the clean-up function runs! Why does this
@@ -133,7 +135,7 @@ happen? Remember that React always runs the clean-up function before running the
 mounting. When you click in Autocomplete, it changes the value of `showList` to
 `true` so the dropdown will show. React notices the change in `useEffect`'s
 dependent variable and, in preparation for running the `useEffect` again, runs
-the clean-up function from the previous iteration. 
+the clean-up function from the previous iteration.
 
 If you continue opening and closing the dropdown, you will note that for every
 open/close cycle, the clean-up function removal runs twice, the main `useEffect`
@@ -156,18 +158,19 @@ any kind of loop. You accordingly cannot simply replace the `createRef` with
 `useRef`.
 
 To make this conversion work, define a new Function Component--e.g.,
-`TransitionItem`--outside of `Auto` that returns the necessary `CSSTransition`
-component. Create the `useRef` ref at the top-level of the `TransitionItem`.
-Then inside the `map`, simply return a `TransitionItem` for each `result`. 
+`TransitionItem`--outside of `Autocomplete` that returns the necessary
+`CSSTransition` component. Create the `useRef` ref at the top-level of the
+`TransitionItem`. Then inside the `map`, simply return a `TransitionItem` for
+each `result`.
 
 One final wrinkle: To work correctly, `CSSTransition` needs certain props passed
 down behind the scenes from the `TransitionGroup` that ultimately wraps
-`results` in `Auto`'s `render`/`return`. You want to make sure those props get
-passed through `TransitionItem` to `CSSTransition`. To make this happen,
-deconstruct the props you are passing into `TransitionItem`, storing any
+`results` in `Autocomplete`'s `render`/`return`. You want to make sure those
+props get passed through `TransitionItem` to `CSSTransition`. To make this
+happen, deconstruct the props you are passing into `TransitionItem`, storing any
 additional props in `props`. (Use the rest operator.) Then, in addition to the
 specific props you set when instantiating `CSSTransition`, also pass the rest of
-the `props`. (Use the spread operator.) 
+the `props`. (Use the spread operator.)
 
 Test your solution!
 
@@ -183,18 +186,23 @@ You can choose any project to convert.
 ## What you've learned
 
 In this project you have learned how to convert a React Class Component into a
-Function Component. You began with the simplest component, `App`, learning
-primarily how to use `useState` to convert a class's state variables. In
-`Folder`, you added the capability to handle props. `Weather` then introduced
-the lifecycle method `componentDidMount` to fetch data from an API, and you
-learned how to replicate this behavior using `useEffect` with an empty
-dependency array. Moving to `Clock`, you gained experience using a clean-up
-function returned from `useEffect` to mimic the behavior of
-`componentWillUnmount`. Finally, with `Auto`, you used `useRef` to create a ref
-that would persist across renders and discovered how to use a dependency array
-with `useEffect` to take the place of `componentDidUpdate`. You also
-experimented with `useEffect` and the lifecycle methods to see not only how they
-could achieve similar effects, but also how they differed.
+Function Component.
 
-[http://localhost:3000]: http://localhost:3000
+You began with the simplest component, `App`, learning primarily how to use
+`useState` to convert a class's state variables. In `Folder`, you added the
+capability to handle props. `Weather` then introduced the lifecycle method
+`componentDidMount` to fetch data from an API, and you learned how to replicate
+this behavior using `useEffect` with an empty dependency array. Moving to
+`Clock`, you gained experience using a clean-up function returned from
+`useEffect` to mimic the behavior of `componentWillUnmount`. Finally, with
+`Autocomplete`, you used `useRef` to create a ref that would persist across
+renders and discovered how to use a dependency array with `useEffect` to take
+the place of `componentDidUpdate`. You experimented with `useEffect` and the
+lifecycle methods as well, seeing not only how they could achieve similar
+effects, but also how they differed.
+
+Through all of this, you also learned the importance of covering any code that
+you are refactoring with tests. The tests provide you with confidence that your
+refactoring did not break anything!
+
 [useRef]: https://reactjs.org/docs/hooks-reference.html#useref

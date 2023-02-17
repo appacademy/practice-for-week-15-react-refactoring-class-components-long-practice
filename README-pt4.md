@@ -1,13 +1,13 @@
-## Phase 4: `Clock`
+# Phase 4: `Clock`
 
-In this phase, you will refactor the `Clock` and `ClockToggle` components from
+In Phase 4, you will refactor the `Clock` and `ClockToggle` components from
 Class Components into Function Components. The `Clock` component is rendered
 inside of `App` but is not passed any props. It displays the current date/time
 information and will be updated every second. The `ClockToggle` is basically a
 button that will mount and unmount the `Clock` component from the page. (This
 will enable you to test your `useEffect` clean-up function.) It is also rendered
 inside of `App` and is passed one prop: the `toggleClock` callback that should
-run when the button is clicked. 
+run when the button is clicked.
 
 Just like with the previous phases, begin by converting the component props and
 state in the `Clock` and `ClockToggle` Class Components to props and state in
@@ -32,7 +32,5 @@ also run this function to clean up before running the `useEffect` again after a
 subsequent render, but the empty dependency array assures that this particular
 `useEffect` will only run once per component lifecycle.
 
-Once again, test your conversion in the browser.
-
-[http://localhost:3000]: http://localhost:3000
-[useRef]: https://reactjs.org/docs/hooks-reference.html#useref
+Once again, test your conversion in the browser in addition to passing all the
+specs.

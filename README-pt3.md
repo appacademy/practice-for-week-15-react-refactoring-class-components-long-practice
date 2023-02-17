@@ -1,6 +1,6 @@
-## Phase 3: `Weather`
+# Phase 3: `Weather`
 
-In this phase, you will refactor the `Weather` component from a Class Component
+In Phase 3, you will refactor the `Weather` component from a Class Component
 into a Function Component. The `Weather` component is rendered inside of the
 `App` component but is not passed any props. Instead, it fetches data from a
 weather data API endpoint after the component is first rendered. It then renders
@@ -22,7 +22,7 @@ Make sure the __.env__ file is included in your __.gitignore__. (You don't want
 to expose your keys by pushing them to Github!) If you encounter a fetch limit,
 comment out the first API key in the __.env__ file and comment in the second API
 key. Repeat the process if you encounter an error again: comment out the second
-key and comment in the third key, and so on.
+key and comment in the third, and so on.
 
 Use the API key in the `Weather` component by changing the relevant line in that
 component from
@@ -51,7 +51,12 @@ coordinates. In this case, `pollWeather` is the function that gets passed the
 coordinates. You can define the `pollWeather` function inside the `useEffect`
 since it will only be used in the `useEffect`.
 
-Test your conversion in the browser.
+**Note:** The tests should run correctly regardless of your configuration. If
+you have trouble connecting to the Weather API in your browser, however, make
+sure that you have Location Services turned on and that your browser has
+permission to access them. Otherwise, the widget will not be able to access your
+current coordinates.
 
-[http://localhost:3000]: http://localhost:3000
-[useRef]: https://reactjs.org/docs/hooks-reference.html#useref
+**Tip:** One of the tests checks that the widget handles a failed fetch
+appropriately. If you want to test this case in the browser, just set the
+`apiKey` to `null`.
