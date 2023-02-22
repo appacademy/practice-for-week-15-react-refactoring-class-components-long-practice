@@ -39,7 +39,7 @@ the 4 widgets and `App`--has an associated test file in __src/\_\_tests\_\___.
 (The tests for `Clock` and `ClockToggle` appear in the same file, as does their
 code.)
 
-The tests are written using React Testing Library on a Jest framework. Look
+The tests are written using [React Testing Library] on a [Jest] framework. Look
 through the test files and try to understand what they are doing. **Do NOT
 change any of the code in the test files.**
 
@@ -96,3 +96,5 @@ children are still Class Components, while `App` is now a Function Component.
 application.**
 
 [http://localhost:3000]: http://localhost:3000
+[React Testing Library]: https://testing-library.com/docs/react-testing-library/intro/
+[Jest]: https://jestjs.io/docs/getting-started
